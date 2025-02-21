@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mall.ic.mapper.ProductMapper">
+    
+    <resultMap id="BaseResultMap" type="com.example.mall.ic.model.Product">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="code" property="code"/>
+        <result column="price" property="price"/>
+        <result column="stock" property="stock"/>
+        <result column="description" property="description"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, name, code, price, stock, description, create_time, update_time
+    </sql>
+
+    <insert id="insert" parameterType="com.example.mall.ic.model.Product" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO product (name, code, price, stock, description, create_time, update_time)
+        VALUES (#{name}, #{code}, #{price}, #{stock}, #{description}, NOW(), NOW())
+    </insert>
+
+    <update id="update" parameterType="com.example.mall.ic.model.Product">
+        UPDATE product
+        SET name = #{name},
+            code = #{code},
+            price = #{price},
+            stock = #{stock},
+            description = #{description},
+            update_time = NOW()
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM product WHERE id = #{id}
+    </delete>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM product
+        WHERE id = #{id}
+    </select>
+
+    <select id="selectList" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM product
+    </select>
+</mapper> 
